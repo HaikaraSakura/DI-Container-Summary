@@ -114,7 +114,7 @@ $container->attach(KnsPDO::class, function (): KnsPDO {
     return KnsPDO::connect('mysql:host=localhost;dbname=test;user=admin;password=admin;charset=utf8mb4');
 });
 
-// 依存関係を自動で解決してIndexActionをインスタンス化
+// ネストした依存関係を自動で解決して、IndexActionをインスタンス化
 $container->get(IndexAction::class);
 ```
 
