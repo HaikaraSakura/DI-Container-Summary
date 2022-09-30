@@ -64,7 +64,7 @@ $container->attach(KnsPDO::class, function (): KnsPDO {
     return KnsPDO::connect('mysql:host=localhost;dbname=test;user=admin;password=admin;charset=utf8mb4');
 });
 
-$container->get(KnsPDO::class);
+$knspdo = $container->get(KnsPDO::class);
 ```
 
 ## Auto Wiring
@@ -137,10 +137,10 @@ DIコンテナのAutoWringが自動的に判別してくれる仕組みになっ
 Auto Wiringが機能するには、DIコンテナに登録（attach）済みの型か、具象クラスが指定されていなくてはなりません。  
 未知のInterfaceや抽象クラスが指定されている場合、DIコンテナは何をインスタンス化してよいか分からないからです。  
 
-以下の例は、knp/adrの基底のActionクラスのコンストラクタです。  
+以下の例は、knp/adrの基底Actionクラスと、そのコンストラクタの記述です。  
 
 ```PHP
-class IndexAction　{
+abstract class Action　{
     public function __construct(
         private readonly ResponseInterface $response,
         private DomainInterface $domain,
@@ -156,10 +156,10 @@ class IndexAction　{
 
 これをどのように解決するかは、各DIコンテナライブラリの哲学によるところなのですが、  
 `knp/di-container`では`Attributes`を用いる手段を採用しました。PHP-DIでも採用されているものです。  
-以下のように記述します。
+基底Actionクラスを継承するクラスで、以下のように記述します。
 
 ```PHP
-class IndexAction {
+class IndexAction extends Action {
     public function __construct(
         private readonly ResponseInterface $response,
         #[Inject(IndexDomain::class)] private DomainInterface $domain,
