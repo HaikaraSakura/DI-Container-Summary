@@ -176,3 +176,4 @@ $container->get(IndexAction::class);
 
 第二、第三引数の先頭に、`#[Inject()]`という記述を追加し、その中に具象クラス名を記述しました。  
 `knp/di-container`はこのAttributesを参照して、依存解決を図ります。
+（protected readonlyという記述も追加されていますが、これはDIとは関係がありません）。
