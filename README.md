@@ -5,6 +5,7 @@
 はじめに、DIというプログラミング上の設計手法があります。  
 DIコンテナは、そのDIを実現する手段のひとつです。  
 
+下記リンクはleague/containerのドキュメントです。CakePHP4で採用されたDIコンテナライブラリです。  
 [https://container.thephpleague.com/4.x/](https://container.thephpleague.com/4.x/)
 > 訳：コンテナは依存性注入コンテナです。これにより、依存性注入設計パターンを実装できます。つまり、クラスの依存性を分離し、必要な場所にコンテナーに注入させることができます。
 
