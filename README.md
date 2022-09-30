@@ -80,9 +80,9 @@ DIコンテナライブラリの多くが備えているAuto Wiringという機�
 class IndexAction {
     // IndexDomain、IndexResponder、ResponseInterfaceを引数として要求する。
     public function __construct(
+        private readonly ResponseInterface $response,
         private readonly IndexDomain $domain,
-        private readonly IndexResponder $responder,
-        private readonly ResponseInterface $response
+        private readonly IndexResponder $responder
     )
     {
     }
@@ -131,3 +131,42 @@ $containerからgetメソッドでIndexResponderクラスのインスタンス�
 TypewriterやKnsPDOのインスタンス化処理については、コンテナに事前にセットされているのですが、  
 「IndexResponderクラスにTypewriterクラスを注入する」という処理はどこにも記述されていません。  
 DIコンテナのAutoWringが自動的に判別してくれる仕組みになっています。  
+
+## Attributes Injection
+
+AutoWiringが機能するには、DIコンテナに登録（attach）済みの型であるか、型として指定されているのが具象クラスなくてはなりません。  
+未知のInterfaceや抽象クラスが指定されている場合、DIコンテナは何をインスタンス化してよいか分からないからです。  
+
+以下の例は、knp/adrの基底のActionクラスのコンストラクタです。  
+
+```PHP
+class IndexAction　{
+    public function __construct(
+        private readonly ResponseInterface $response,
+        private DomainInterface $domain,
+        private ResponderInterface $responder
+    ) {
+    }
+}
+```
+
+第一引数の`ResponseInterface`はattach済みなので解決できますが、  
+第二、第三引数の`DomainInterface`と`ResponderInterface`はattachされていないので、Auto Wiringでの依存解決に失敗します。  
+
+これをどのように解決するかは、各DIコンテナライブラリの哲学によるところなのですが、  
+`knp/di-container`では`Attributes`を用いる手段を採用しました。PHP-DIでも採用されているものです。  
+以下のように記述します。
+
+```PHP
+class IndexAction {
+    public function __construct(
+        private readonly ResponseInterface $response,
+        #[Inject(IndexDomain::class)] private DomainInterface $domain,
+        #[Inject(IndexResponder::class)] private ResponderInterface $responder
+    ) {
+    }
+}
+```
+
+第二、第三引数の先頭に、`#[Inject()]`という記述を追加し、その中に具象クラス名を記述しました。  
+`knp/di-container`はこのAttributesを参照して、依存解決を図ります。
