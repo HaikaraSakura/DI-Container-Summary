@@ -15,7 +15,9 @@ DIコンテナは、そのDIを実現する手段のひとつです。
 外部で生成したクラスBのインスタンスを、メソッドの引数を通じてクラスAに与えることで、  
 クラス同士の関係を疎結合にするべきである、という考え方がDIの基本です。  
 
-単純な例として、KnsPDOはコンストラクタの引数として、PDOのインスタンスを要求します。
+クラス同士の関係を疎結合にするべきである、という考え方がDIの基本です。  
+
+単純な例として、KnsPDOはコンストラクタの引数として、PDOのインスタンスを要求します。  
 
 ```PHP
 class KnsPDO implements KnsPDOInterface
@@ -30,6 +32,10 @@ class KnsPDO implements KnsPDOInterface
 $pdo = \PDO('mysql:host=localhost;dbname=dbname;user=user;password=password;charset=utf8mb4');
 $knspdo = new KnsPDO($pdo);
 ```
+
+なお、メソッドを通じて依存性を注入することをメソッドインジェクションといいます（あまり言いません）。
+コンストラクタでのメソッドインジェクションを、特にコンストラクタインジェクションといいます（あまり言いません）。    
+DIコンテナを用いる場合、基本はコンストラクタインジェクションでDIを実現します。
 
 ## DIコンテナの役割
 
