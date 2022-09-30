@@ -134,7 +134,7 @@ DIコンテナのAutoWringが自動的に判別してくれる仕組みになっ
 
 ## Attributes Injection
 
-AutoWiringが機能するには、DIコンテナに登録（attach）済みの型か、具象クラスが指定されていなくてはなりません。  
+Auto Wiringが機能するには、DIコンテナに登録（attach）済みの型か、具象クラスが指定されていなくてはなりません。  
 未知のInterfaceや抽象クラスが指定されている場合、DIコンテナは何をインスタンス化してよいか分からないからです。  
 
 以下の例は、knp/adrの基底のActionクラスのコンストラクタです。  
@@ -152,7 +152,7 @@ class IndexAction　{
 
 第一引数の`ResponseInterface`はattach済みなので解決できますが、  
 第二、第三引数の`DomainInterface`と`ResponderInterface`はInterfaceであり、  
-事前にattachされていない型なので、AutoWiringでの依存解決に失敗します。  
+事前にattachされていない型なので、Auto Wiringでの依存解決に失敗します。  
 
 これをどのように解決するかは、各DIコンテナライブラリの哲学によるところなのですが、  
 `knp/di-container`では`Attributes`を用いる手段を採用しました。PHP-DIでも採用されているものです。  
