@@ -81,9 +81,9 @@ DIコンテナライブラリの多くが備えているAuto Wiringという機�
 class IndexAction {
     // IndexDomain、IndexResponder、ResponseInterfaceを引数として要求する。
     public function __construct(
-        private readonly ResponseInterface $response,
-        private readonly IndexDomain $domain,
-        private readonly IndexResponder $responder
+        protected readonly ResponseInterface $response,
+        protected readonly IndexDomain $domain,
+        protected readonly IndexResponder $responder
     )
     {
     }
@@ -142,12 +142,11 @@ Auto Wiringが機能するには、DIコンテナに登録（attach）済みの�
 
 ```PHP
 abstract class Action　{
-    public function __construct(
-        private readonly ResponseInterface $response,
-        private DomainInterface $domain,
-        private ResponderInterface $responder
-    ) {
-    }
+    abstract public function __construct(
+        ResponseInterface $response,
+        ?DomainInterface $domain,
+        ?ResponderInterface $responder
+    );
 }
 ```
 
@@ -162,9 +161,9 @@ abstract class Action　{
 ```PHP
 class IndexAction extends Action {
     public function __construct(
-        private readonly ResponseInterface $response,
-        #[Inject(IndexDomain::class)] private DomainInterface $domain,
-        #[Inject(IndexResponder::class)] private ResponderInterface $responder
+        protected readonly ResponseInterface $response,
+        #[Inject(IndexDomain::class)] protected readonly DomainInterface $domain,
+        #[Inject(IndexResponder::class)] protected readonly ResponderInterface $responder
     ) {
     }
 }
