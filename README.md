@@ -170,6 +170,8 @@ class IndexAction extends Action {
 
 $container->get(IndexAction::class);
 // Response、IndexDomain、IndexResponderのインスタンスを備えたIndexActionのインスタンスを取得できる。
+// IndexDomainはKnsPDOを持っており、KnsPDOはPDOを持っている。
+// IndexResponderはTypewriterを持っている。
 ```
 
 第二、第三引数の先頭に、`#[Inject()]`という記述を追加し、その中に具象クラス名を記述しました。  
