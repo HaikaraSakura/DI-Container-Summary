@@ -151,7 +151,8 @@ class IndexAction　{
 ```
 
 第一引数の`ResponseInterface`はattach済みなので解決できますが、  
-第二、第三引数の`DomainInterface`と`ResponderInterface`はattachされていないので、Auto Wiringでの依存解決に失敗します。  
+第二、第三引数の`DomainInterface`と`ResponderInterface`はInterfaceであり、  
+事前にattachされていない型なので、AutoWiringでの依存解決に失敗します。  
 
 これをどのように解決するかは、各DIコンテナライブラリの哲学によるところなのですが、  
 `knp/di-container`では`Attributes`を用いる手段を採用しました。PHP-DIでも採用されているものです。  
